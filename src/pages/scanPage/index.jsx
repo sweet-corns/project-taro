@@ -2,7 +2,7 @@ import Taro from '@tarojs/taro'
 import { useState } from 'react'
 import { Button, View } from '@tarojs/components'
 import { useAsyncEffect } from '../../utils/index'
-import wx from 'weixin-js-sdk'
+
 
 function Scan() {
   const [loading, setLoading] = useState(true)
@@ -25,6 +25,7 @@ function Scan() {
       title: '加载中',
     })
     if (process.env.TARO_ENV === 'h5') {
+     
       // 走微信公众号扫一扫
       // onScanCodeWx() demo中得后台接口是模拟得，写入项目中放开这个方法
     } else {
@@ -50,7 +51,7 @@ function Scan() {
   }
 
   const onScanCodeWx = () => {
-    let tokenUrl = location.href;
+    let tokenUrl = '';
     Taro.getSystemInfo({
       success: res => {
         // 1、注意ios调不起扫一扫：把微信JSSDk js 的资源路径换成 https，可能是 iOS 系统自身安全性的原因，生产环境只能引用 https 开头的路径。
@@ -90,6 +91,7 @@ function Scan() {
     })
   }
   const wxConfig = (_appId, _timestamp, _nonceStr, _signature) => {
+    let wx = require('weixin-js-sdk')
     wx.config({
       debug: false,// 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
       appId: _appId,// 必填，公众号的唯一标识
@@ -112,6 +114,7 @@ function Scan() {
     })
   }
   const onScanCodeWxFun = () => {
+    let wx = require('weixin-js-sdk')
     wx.scanQRCode({
       needResult: 1,
       scanType: ["qrCode", "barCode"],
