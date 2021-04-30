@@ -21,10 +21,10 @@ function Scan() {
       return //防止二次点击
     }
     setLoading(true)
+    Taro.showLoading({
+      title: '加载中',
+    })
     if (process.env.TARO_ENV === 'h5') {
-      Taro.showLoading({
-        title: '加载中',
-      })
       // 走微信公众号扫一扫
       // onScanCodeWx() demo中得后台接口是模拟得，写入项目中放开这个方法
     } else {
@@ -37,11 +37,13 @@ function Scan() {
             console.log(newObj)
             // 扫码成功以后跳到签到成功页面、释放加载按钮
             setLoading(false)
+            Taro.hideLoading()
           }
         },
         fail: (err) => {
           // 扫码签到失败后跳转到失败页面、释放加载按钮
           setLoading(false)
+          Taro.hideLoading()
         }
       })
     }
